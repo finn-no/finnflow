@@ -1,3 +1,7 @@
+allprojects {
+    version = '0.2-SNAPSHOT'
+}
+
 buildscript {
     repositories {
         mavenCentral()

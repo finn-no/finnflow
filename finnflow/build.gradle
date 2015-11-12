@@ -1,17 +1,20 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
         classpath 'com.android.tools.build:gradle:1.1.1'
     }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
 
 repositories {
     mavenLocal()
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -27,5 +30,48 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 23
+    }
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "source"
+}
+
+publishing {
+    publications {
+        Publication(MavenPublication) {
+            groupId 'no.finn.android.finnflow'
+            artifactId 'library'
+            version project.version
+            artifact(sourceJar)
+            artifact("$buildDir/outputs/aar/finnflow-release.aar")
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+
+    publications = ['Publication']
+    dryRun = false
+    publish = true
+    pkg {
+        repo = 'maven'
+        name = 'finnflow'
+        desc = 'The architechture we use on top of squares flow at FINN'
+        websiteUrl = 'https://github.com/finn-no/finnflow'
+        issueTrackerUrl = 'https://github.com/finn-no/finnflow/issues'
+        vcsUrl = 'https://github.com/finn-no/finnflow.git'
+        licenses = ['Apache-2.0']
+        labels = ['android','square','flow']
+        publicDownloadNumbers = true
+        version {
+            name = project.version
+            mavenCentralSync {
+                sync = false
+            }
+        }
     }
 }

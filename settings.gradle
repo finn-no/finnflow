@@ -1,6 +1,4 @@
 rootProject.name = 'FinnFlow'
-include ':FinnFlow-library'
-project(':FinnFlow-library').projectDir = "$rootDir/finnflow" as File
+include ':finnflow'
 
-include ':FinnFlow-sample'
-project(':FinnFlow-sample').projectDir = "$rootDir/sample" as File
+include ':sample'
