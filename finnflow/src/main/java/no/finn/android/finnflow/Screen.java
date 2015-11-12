@@ -1,14 +1,11 @@
-package no.finn.finnflow;
+package no.finn.android.finnflow;
 
 import android.content.Context;
-import android.os.Parcelable;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 public abstract class Screen<VIEW extends View, SCREEN extends Screen, PRESENTER extends ViewPresenter<VIEW, SCREEN>> {
-    private SparseArray<Parcelable> viewState = null;
     public DialogState dialogState;
     private PRESENTER presenter = null;
 
@@ -28,16 +25,13 @@ public abstract class Screen<VIEW extends View, SCREEN extends Screen, PRESENTER
 
     public abstract PRESENTER createPresenter();
 
-    public void setViewState(SparseArray<Parcelable> viewState) {
-        this.viewState = viewState;
-    }
-
-    public SparseArray<Parcelable> getViewState() {
-        return viewState;
-    }
-
     public abstract static class DialogState {
         public abstract FlowAlertDialogBuilder createDialog(Context context, ViewPresenter presenter);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o != null && (o == this || o.getClass() == getClass());
     }
 
     public boolean saveViewState() {

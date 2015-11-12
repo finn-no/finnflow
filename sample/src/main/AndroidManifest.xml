@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="no.finn.finnflow.sample">
+          package="no.finn.android.finnflow.sample">
 
     <application
             android:allowBackup="true"
-            android:label="FinnFlow">
+            android:label="FinnFlow Sample">
         <activity
                 android:name=".BaseActivity"
                 android:windowSoftInputMode="stateHidden|adjustResize">

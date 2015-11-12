@@ -1,9 +1,10 @@
-package no.finn.finnflow;
+package no.finn.android.finnflow;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.View;
 
 public class BaseContextWrapper<T> extends ContextWrapper {
     private final String key;
@@ -35,10 +36,14 @@ public class BaseContextWrapper<T> extends ContextWrapper {
         return (P) context.getSystemService(key);
     }
 
-    public static FragmentActivity getActivity(Context context) {
-        if (!(context instanceof FragmentActivity)) {
+    public static Activity getActivity(View view) {
+        return getActivity(view.getContext());
+    }
+
+    public static Activity getActivity(Context context) {
+        if (!(context instanceof Activity)) {
             return getActivity(((ContextWrapper) context).getBaseContext());
         }
-        return (FragmentActivity) context;
+        return (Activity) context;
     }
 }

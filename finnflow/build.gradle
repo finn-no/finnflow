@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.0'
+        classpath 'com.android.tools.build:gradle:1.1.1'
     }
 }
 
@@ -16,16 +16,16 @@ repositories {
 
 dependencies {
     compile('com.android.support:support-v13:21.0.3')
-    compile('com.squareup.flow:flow:0.8')
-    compile 'com.bluelinelabs:logansquare:1.0.5'
+    compile('com.squareup.flow:flow:0.10')
+    compile 'com.bluelinelabs:logansquare:1.1.0'
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    compileSdkVersion 23
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 23
     }
 }

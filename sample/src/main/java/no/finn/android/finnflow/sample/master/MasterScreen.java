@@ -1,7 +1,7 @@
-package no.finn.finnflow.sample.master;
+package no.finn.android.finnflow.sample.master;
 
-import no.finn.finnflow.Screen;
-import no.finn.finnflow.sample.R;
+import no.finn.android.finnflow.Screen;
+import no.finn.android.finnflow.sample.R;
 
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 

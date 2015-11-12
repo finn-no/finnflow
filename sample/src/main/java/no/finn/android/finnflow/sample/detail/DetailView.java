@@ -1,12 +1,12 @@
-package no.finn.finnflow.sample.detail;
+package no.finn.android.finnflow.sample.detail;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import no.finn.finnflow.PresenterContext;
-import no.finn.finnflow.sample.R;
+import no.finn.android.finnflow.PresenterContext;
+import no.finn.android.finnflow.sample.R;
 
 public class DetailView extends LinearLayout {
     private final DetailPresenter presenter;

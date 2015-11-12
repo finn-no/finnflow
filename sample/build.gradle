@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.0'
+        classpath 'com.android.tools.build:gradle:1.1.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
 }
@@ -19,17 +19,18 @@ repositories {
 
 dependencies {
     compile project(":FinnFlow-library")
-    compile "com.android.support:appcompat-v7:21.0.3"
-    apt 'com.bluelinelabs:logansquare-compiler:1.0.5'
-    compile 'com.bluelinelabs:logansquare:1.0.5'
+    compile "com.android.support:appcompat-v7:23.1.0"
+    apt 'com.bluelinelabs:logansquare-compiler:1.1.0'
+    compile 'com.bluelinelabs:logansquare:1.1.0'
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    compileSdkVersion 23
+    buildToolsVersion "21.1.2"
 
     defaultConfig {
+        applicationId "no.finn.android.finnflow.sample"
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 23
     }
 }

@@ -1,8 +1,8 @@
-package no.finn.finnflow.sample.detail;
+package no.finn.android.finnflow.sample.detail;
 
 import android.os.AsyncTask;
 
-import no.finn.finnflow.ViewPresenter;
+import no.finn.android.finnflow.ViewPresenter;
 
 public class DetailPresenter extends ViewPresenter<DetailView, DetailScreen> {
 

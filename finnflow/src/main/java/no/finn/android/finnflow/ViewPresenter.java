@@ -1,4 +1,4 @@
-package no.finn.finnflow;
+package no.finn.android.finnflow;
 
 import android.content.Context;
 import android.view.View;
@@ -17,15 +17,24 @@ public abstract class ViewPresenter<V extends View, S extends Screen> {
     }
 
     public final void takeView(V view) {
-        assert this.view == null;
+        if (this.view != null) {
+            // Fragments can cause some iffy behavior here. We've seen logs where onAttachedToWindow is triggered twice in a row...
+            dropView();
+        }
+
         this.view = view;
         onLoad();
+
         if (getScreen().dialogState != null) {
             showDialog(view.getContext(), getScreen().dialogState);
         }
     }
 
     public final void dropView() {
+        if (view == null) {
+            //dropView can happen twice during screen moving/animations, we only trigger callbacks once.
+            return;
+        }
         if (dialog != null) {
             dialog.onSave();
             dialog.dismissQuietly();

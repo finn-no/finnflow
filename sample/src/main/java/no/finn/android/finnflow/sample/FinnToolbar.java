@@ -1,11 +1,11 @@
-package no.finn.finnflow.sample;
+package no.finn.android.finnflow.sample;
 
 import android.content.Context;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
 
-import no.finn.finnflow.PresenterContext;
+import no.finn.android.finnflow.PresenterContext;
 
 public class FinnToolbar extends Toolbar {
     public FinnToolbar(Context context) {

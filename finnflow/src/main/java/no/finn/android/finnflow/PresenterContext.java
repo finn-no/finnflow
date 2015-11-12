@@ -1,4 +1,4 @@
-package no.finn.finnflow;
+package no.finn.android.finnflow;
 
 import android.content.Context;
 
