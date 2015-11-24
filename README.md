@@ -8,7 +8,6 @@ What this package adds on to of flow:
 * A mortar like Presenter pattern without using dagger 1x injection. (Which we thought was easier than mortar and blueprints.).
 * A "Screen" that can be serialized with dialog information. (remember both dialog state and whether they were open). This can also be serialized easily, so packing an intent from a notification that opens a dialog with a preset state is a few lines of code.
 * SharedScreen concept that allows moving part of a screen to another screen. (Allows shared elements in Master/Detail layouts to basically be the same element)
-* fragmentcompat package that adds a lot of compat code we used during our migration to flow.
 
 Why we use flow:
 * We used to have a ton of requests triggered onResume and canceled onPause, with presenters we don't need that. The presenter will stay alive aslong as the network requests are.
