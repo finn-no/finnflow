@@ -20,7 +20,6 @@ repositories {
 dependencies {
     compile('com.android.support:support-v13:21.0.3')
     compile('com.squareup.flow:flow:0.10')
-    compile 'com.bluelinelabs:logansquare:1.1.0'
 }
 
 android {

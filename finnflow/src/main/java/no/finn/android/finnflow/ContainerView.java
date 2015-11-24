@@ -1,16 +1,14 @@
 package no.finn.android.finnflow;
 
-import java.io.IOException;
-
 import android.content.Context;
 import android.os.Build;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 
-import com.bluelinelabs.logansquare.LoganSquare;
 import flow.Flow;
 import flow.ViewState;
 
@@ -62,8 +60,8 @@ public class ContainerView extends FrameLayout {
             }
             if (finnFlow.isDebugBuild()) {
                 try {
-                    LoganSquare.serialize(oldScreen);
-                } catch (IOException e) {
+                    finnFlow.getParcer().wrap(oldScreen).writeToParcel(Parcel.obtain(), 0);
+                } catch (IllegalStateException e) {
                     throw new IllegalStateException("Failed to serialize " + oldScreen + " did you forget @JsonObject?...");
                 }
             }
