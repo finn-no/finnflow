@@ -16,7 +16,7 @@ public abstract class FinnFlowActivity extends Activity {
             finnFlowDelegate = new FinnFlowDelegate(new FinnFlow(this, BuildConfig.DEBUG) {
                 @Override
                 public StateParceler createParcer() {
-                    return FinnFlowActivity.this.getParcer();
+                    return FinnFlowActivity.this.createParcer();
                 }
 
                 @Override
@@ -76,5 +76,5 @@ public abstract class FinnFlowActivity extends Activity {
 
     protected abstract Screen createDefaultScreen();
 
-    protected abstract StateParceler getParcer();
+    protected abstract StateParceler createParcer();
 }
