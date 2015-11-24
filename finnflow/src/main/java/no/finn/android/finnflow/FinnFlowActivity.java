@@ -15,7 +15,7 @@ public abstract class FinnFlowActivity extends Activity {
         if (finnFlowDelegate == null) {
             finnFlowDelegate = new FinnFlowDelegate(new FinnFlow(this, BuildConfig.DEBUG) {
                 @Override
-                public StateParceler getParcer() {
+                public StateParceler createParcer() {
                     return FinnFlowActivity.this.getParcer();
                 }
 

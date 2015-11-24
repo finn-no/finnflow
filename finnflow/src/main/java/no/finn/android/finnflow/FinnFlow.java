@@ -20,6 +20,7 @@ public abstract class FinnFlow implements Flow.Dispatcher {
 
     Screen destinationScreen = null;
     boolean isResumed = false;
+    StateParceler parcer = null;
 
     public FinnFlow(Activity activity, boolean debugBuild) {
         this.activity = activity;
@@ -42,7 +43,7 @@ public abstract class FinnFlow implements Flow.Dispatcher {
         intent.putExtra(HISTORY_KEY, history.getParcelable(getParcer()));
     }
 
-    public abstract StateParceler getParcer();
+    public abstract StateParceler createParcer();
 
     public abstract Screen createDefaultScreen();
 
@@ -87,5 +88,12 @@ public abstract class FinnFlow implements Flow.Dispatcher {
 
     boolean isDebugBuild() {
         return debugBuild;
+    }
+
+    StateParceler getParcer() {
+        if (parcer == null) {
+            parcer = createParcer();
+        }
+        return parcer;
     }
 }
