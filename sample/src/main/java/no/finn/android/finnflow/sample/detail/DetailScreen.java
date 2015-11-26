@@ -1,15 +1,13 @@
 package no.finn.android.finnflow.sample.detail;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import no.finn.android.finnflow.Screen;
 import no.finn.android.finnflow.sample.R;
 
-import com.bluelinelabs.logansquare.annotation.JsonField;
-import com.bluelinelabs.logansquare.annotation.JsonObject;
-
-@JsonObject
 public class DetailScreen extends Screen<DetailView, DetailScreen, DetailPresenter> {
 
-    @JsonField
+    @JsonProperty
     int whatever_id; // will be persisted on rotate/saveinstancestate.
 
     public DetailScreen() {

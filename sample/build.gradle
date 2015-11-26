@@ -20,8 +20,7 @@ repositories {
 dependencies {
     compile project(":finnflow")
     compile "com.android.support:appcompat-v7:23.1.0"
-    apt 'com.bluelinelabs:logansquare-compiler:1.1.0'
-    compile 'com.bluelinelabs:logansquare:1.1.0'
+    compile "com.fasterxml.jackson.core:jackson-databind:2.6.1"
 }
 
 android {

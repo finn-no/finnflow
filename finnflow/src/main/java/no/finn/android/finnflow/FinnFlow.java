@@ -8,11 +8,11 @@ import android.view.View;
 
 import flow.Flow;
 import flow.History;
+import flow.StateParceler;
 
 public abstract class FinnFlow implements Flow.Dispatcher {
     private static final String FINNFLOWDELEGATE = "FinnFlowDelegate";
     private static final String HISTORY_KEY = "BaseFlowActivity.HISTORY_KEY";
-    private static final LoganStateParceler parcer = new LoganStateParceler();
 
     private final Activity activity;
     private final boolean debugBuild;
@@ -20,21 +20,7 @@ public abstract class FinnFlow implements Flow.Dispatcher {
 
     Screen destinationScreen = null;
     boolean isResumed = false;
-
-    public static Intent getIntent(Context context, Screen screen, Class<?> cls) {
-        return getIntent(context, History.single(screen), cls);
-    }
-
-    public static Intent getIntent(Context context, History history, Class<?> cls) {
-        Intent intent = new Intent(context, cls);
-        setHistoryExtra(intent, history);
-        return intent;
-    }
-
-    public static void setHistoryExtra(Intent intent, History history) {
-        //@hack : https://github.com/square/flow/issues/99
-        intent.putExtra(HISTORY_KEY, history.getParcelable(parcer));
-    }
+    StateParceler parcer = null;
 
     public FinnFlow(Activity activity, boolean debugBuild) {
         this.activity = activity;
@@ -42,9 +28,22 @@ public abstract class FinnFlow implements Flow.Dispatcher {
         container = new ContainerView(activity, this);
     }
 
-    public LoganStateParceler getParcer() {
-        return parcer;
+    public Intent getIntent(Screen screen, Class<?> cls) {
+        return getIntent(History.single(screen), cls);
     }
+
+    public Intent getIntent(History history, Class<?> cls) {
+        Intent intent = new Intent(activity, cls);
+        setHistoryExtra(intent, history);
+        return intent;
+    }
+
+    public void setHistoryExtra(Intent intent, History history) {
+        //@hack : https://github.com/square/flow/issues/99
+        intent.putExtra(HISTORY_KEY, history.getParcelable(getParcer()));
+    }
+
+    public abstract StateParceler createParcer();
 
     public abstract Screen createDefaultScreen();
 
@@ -82,12 +81,19 @@ public abstract class FinnFlow implements Flow.Dispatcher {
     public History createHistory(Bundle savedInstanceState) {
         History defaultHistory = History.single(createDefaultScreen());
         if (savedInstanceState == null && activity.getIntent().hasExtra(FinnFlow.HISTORY_KEY)) {
-            defaultHistory = History.from(activity.getIntent().getParcelableExtra(FinnFlow.HISTORY_KEY), FinnFlow.parcer);
+            defaultHistory = History.from(activity.getIntent().getParcelableExtra(FinnFlow.HISTORY_KEY), getParcer());
         }
         return defaultHistory;
     }
 
     boolean isDebugBuild() {
         return debugBuild;
+    }
+
+    StateParceler getParcer() {
+        if (parcer == null) {
+            parcer = createParcer();
+        }
+        return parcer;
     }
 }

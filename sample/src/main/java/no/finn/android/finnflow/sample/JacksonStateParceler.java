@@ -1,14 +1,28 @@
-package no.finn.android.finnflow;
-
-import java.io.IOException;
+package no.finn.android.finnflow.sample;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.bluelinelabs.logansquare.LoganSquare;
-import flow.StateParceler;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
-class LoganStateParceler implements StateParceler {
+import java.io.IOException;
+
+import flow.StateParceler;
+import no.finn.android.finnflow.Screen;
+
+class JacksonStateParceler implements StateParceler {
+    private static ObjectMapper objectMapper = new ObjectMapper() {{
+        enable(JsonGenerator.Feature.IGNORE_UNKNOWN);
+        disable(MapperFeature.AUTO_DETECT_CREATORS,
+                MapperFeature.AUTO_DETECT_FIELDS,
+                MapperFeature.AUTO_DETECT_GETTERS,
+                MapperFeature.AUTO_DETECT_IS_GETTERS);
+        disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+    }};
+
     @Override
     public Parcelable wrap(Object instance) {
         Screen screen = (Screen) instance;
@@ -37,8 +51,8 @@ class LoganStateParceler implements StateParceler {
             try {
                 String screenClass = screen.getClass().getName();
                 String dialogClass = screen.dialogState != null ? screen.dialogState.getClass().getName() : null;
-                String serializedScreen = LoganSquare.serialize(screen);
-                String serializedDialog = screen.dialogState != null ? LoganSquare.serialize(screen.dialogState) : null;
+                String serializedScreen = objectMapper.writeValueAsString(screen);
+                String serializedDialog = screen.dialogState != null ? objectMapper.writeValueAsString(screen.dialogState) : null;
 
                 out.writeString(screenClass);
                 out.writeString(serializedScreen);
@@ -54,7 +68,7 @@ class LoganStateParceler implements StateParceler {
             }
         }
 
-        public static final Parcelable.Creator<Wrapper> CREATOR = new Parcelable.Creator<Wrapper>() {
+        public static final Creator<Wrapper> CREATOR = new Creator<Wrapper>() {
             @Override
             public Wrapper createFromParcel(Parcel in) {
                 try {
@@ -68,10 +82,10 @@ class LoganStateParceler implements StateParceler {
                     }
 
                     Class<Object> screenType = (Class<Object>) Class.forName(screenClass);
-                    Screen screen = (Screen) LoganSquare.parse(serializedScreen, screenType);
+                    Screen screen = objectMapper.readerFor(screenType).readValue(serializedScreen);
                     if (dialogClass != null) {
                         Class<Object> dialogType = (Class<Object>) Class.forName(dialogClass);
-                        Screen.DialogState dialogState = (Screen.DialogState) LoganSquare.parse(serializedDialog, dialogType);
+                        Screen.DialogState dialogState = objectMapper.readerFor(dialogType).readValue(serializedDialog);
                         screen.dialogState = dialogState;
                     }
                     return new Wrapper(screen);

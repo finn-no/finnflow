@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 
-import no.finn.android.finnflow.BuildConfig;
+import flow.StateParceler;
 
 public abstract class FinnFlowActivity extends Activity {
     private FinnFlowDelegate finnFlowDelegate = null;
@@ -14,6 +14,11 @@ public abstract class FinnFlowActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         if (finnFlowDelegate == null) {
             finnFlowDelegate = new FinnFlowDelegate(new FinnFlow(this, BuildConfig.DEBUG) {
+                @Override
+                public StateParceler createParcer() {
+                    return FinnFlowActivity.this.createParcer();
+                }
+
                 @Override
                 public Screen createDefaultScreen() {
                     return FinnFlowActivity.this.createDefaultScreen();
@@ -70,4 +75,6 @@ public abstract class FinnFlowActivity extends Activity {
     }
 
     protected abstract Screen createDefaultScreen();
+
+    protected abstract StateParceler createParcer();
 }
