@@ -13,7 +13,7 @@ public class BaseActivity extends FinnFlowActivity {
     }
 
     @Override
-    protected StateParceler createParcer() {
-        return new JacksonStateParceler();
+    protected StateParceler getParcer() {
+        return JacksonStateParceler.instance();
     }
 }

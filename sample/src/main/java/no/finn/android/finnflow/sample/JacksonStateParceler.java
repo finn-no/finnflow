@@ -23,6 +23,12 @@ class JacksonStateParceler implements StateParceler {
         disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }};
 
+    private static StateParceler INSTANCE = new JacksonStateParceler();
+
+    public static StateParceler instance() {
+        return INSTANCE;
+    }
+
     @Override
     public Parcelable wrap(Object instance) {
         Screen screen = (Screen) instance;
