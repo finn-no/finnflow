@@ -13,12 +13,7 @@ public abstract class FinnFlowActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (finnFlowDelegate == null) {
-            finnFlowDelegate = new FinnFlowDelegate(new FinnFlow(this, BuildConfig.DEBUG) {
-                @Override
-                public StateParceler createParcer() {
-                    return FinnFlowActivity.this.createParcer();
-                }
-
+            finnFlowDelegate = new FinnFlowDelegate(new FinnFlow(this, getParcer(), BuildConfig.DEBUG) {
                 @Override
                 public Screen createDefaultScreen() {
                     return FinnFlowActivity.this.createDefaultScreen();
@@ -76,5 +71,5 @@ public abstract class FinnFlowActivity extends Activity {
 
     protected abstract Screen createDefaultScreen();
 
-    protected abstract StateParceler createParcer();
+    protected abstract StateParceler getParcer();
 }

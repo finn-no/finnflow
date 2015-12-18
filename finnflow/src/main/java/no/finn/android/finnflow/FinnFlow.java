@@ -15,35 +15,34 @@ public abstract class FinnFlow implements Flow.Dispatcher {
     private static final String HISTORY_KEY = "BaseFlowActivity.HISTORY_KEY";
 
     private final Activity activity;
+    private final StateParceler parceler;
     private final boolean debugBuild;
     private final ContainerView container;
 
     Screen destinationScreen = null;
     boolean isResumed = false;
-    StateParceler parcer = null;
 
-    public FinnFlow(Activity activity, boolean debugBuild) {
+    public FinnFlow(Activity activity, StateParceler parceler, boolean debugBuild) {
         this.activity = activity;
+        this.parceler = parceler;
         this.debugBuild = debugBuild;
         container = new ContainerView(activity, this);
     }
 
-    public Intent getIntent(Screen screen, Class<?> cls) {
-        return getIntent(History.single(screen), cls);
+    public static Intent getIntent(Context context, Screen screen, Class<?> cls, StateParceler parceler) {
+        return getIntent(context, History.single(screen), cls, parceler);
     }
 
-    public Intent getIntent(History history, Class<?> cls) {
-        Intent intent = new Intent(activity, cls);
-        setHistoryExtra(intent, history);
+    public static Intent getIntent(Context context, History history, Class<?> cls, StateParceler parceler) {
+        Intent intent = new Intent(context, cls);
+        setHistoryExtra(intent, history, parceler);
         return intent;
     }
 
-    public void setHistoryExtra(Intent intent, History history) {
+    public static void setHistoryExtra(Intent intent, History history, StateParceler parceler) {
         //@hack : https://github.com/square/flow/issues/99
-        intent.putExtra(HISTORY_KEY, history.getParcelable(getParcer()));
+        intent.putExtra(HISTORY_KEY, history.getParcelable(parceler));
     }
-
-    public abstract StateParceler createParcer();
 
     public abstract Screen createDefaultScreen();
 
@@ -91,9 +90,6 @@ public abstract class FinnFlow implements Flow.Dispatcher {
     }
 
     StateParceler getParcer() {
-        if (parcer == null) {
-            parcer = createParcer();
-        }
-        return parcer;
+        return parceler;
     }
 }
